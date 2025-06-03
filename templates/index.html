@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Broken Webpage</title>
+		<script>src="https://unpkg.com/htmx.org@1.9.12"</script>
+	</head>
+
+	<body>
+		<div id="root">
+				<header>			
+					<h1>Not So Broken WebPage</h1>
+					<nav> 
+						<ul>
+							{% for p in pages %}
+								<li><a href={{p.link}}>{{p.name}}</li>	
+							{% endfor %}
+						</ul>
+					</nav>
+				</header>
+
+				<main>
+					<section>
+						
+					</section>
+				</main>
+
+
+		</div>
+	
+	</body>
+</html>
+
