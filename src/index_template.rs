@@ -6,7 +6,7 @@ pub struct Page<'a>{
 }
 
 #[derive(Template)]
-#[template(path="index.html")]
+#[template(path="./index.html")]
 pub struct MainNavBar<'a>{
   pub pages: Vec<Page<'a>>,
 }

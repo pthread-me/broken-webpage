@@ -17,29 +17,26 @@ use axum::response::{
 
 #[tokio::main]
 async fn main() {
-
   let router =  routes(); 
-  let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+  let listener = tokio::net::TcpListener::bind("127.0.0.1:3000").await.unwrap();
   axum::serve(listener, router).await.unwrap();
 }
 
 fn routes() -> Router{
   Router::new()
     .route("/", get(get_index))
-    .nest_service("/static", ServeDir::new("./templates"))
+    .nest_service("/static", ServeDir::new("./static"))
 
 }
 
 async fn get_index() -> impl IntoResponse { 
   let mut pages:Vec<Page> = Vec::new();
-  pages.push(Page{
-    name: "Home",
-    link: "#"
-  });
+  pages.push(Page{name: "Home",link: "https://google.com"});
+  pages.push(Page{name: "Projects",link: "#"});
+  pages.push(Page{name: "Home",link: "#"});
+  pages.push(Page{name: "Home",link: "#"});
 
-  let m_nav_bar = MainNavBar{
-    pages,
-  };
+  let m_nav_bar = MainNavBar{pages};
  
   let reply = m_nav_bar.render().unwrap();
   (StatusCode::OK, Html(reply).into_response())
