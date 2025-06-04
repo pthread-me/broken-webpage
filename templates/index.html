@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8"/>
 		<title>Broken Webpage</title>
 		<script>src="https://unpkg.com/htmx.org@1.9.12"</script>
+		<link rel="stylesheet" href="/static/assets/css/_layout.css"/>
 	</head>
 
 	<body>
-		<div id="root">
+		<div>
 				<header>			
 					<h1>Not So Broken WebPage</h1>
 					<nav> 
 						<ul>
 							{% for p in pages %}
-								<li><a href={{p.link}}>{{p.name}}</li>	
+							<li><a href={{p.link}}>{{p.name}}</a></li>	
 							{% endfor %}
 						</ul>
 					</nav>
@@ -20,13 +22,14 @@
 
 				<main>
 					<section>
-						
+						<p>test1</p>
 					</section>
 				</main>
 
 
 		</div>
-	
+		<p>test2</p>
+		<script src="/static/assets/js/index.js"></script>
 	</body>
 </html>
 
