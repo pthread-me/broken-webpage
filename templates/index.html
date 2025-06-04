@@ -3,33 +3,24 @@
 	<head>
 		<meta charset="utf-8"/>
 		<title>Broken Webpage</title>
-		<script>src="https://unpkg.com/htmx.org@1.9.12"</script>
-		<link rel="stylesheet" href="/static/assets/css/_layout.css"/>
+		<link rel="stylesheet" href="/static/css/layout.css"/>
 	</head>
 
-	<body>
-		<div>
-				<header>			
-					<h1>Not So Broken WebPage</h1>
-					<nav> 
-						<ul>
-							{% for p in pages %}
-							<li><a href={{p.link}}>{{p.name}}</a></li>	
-							{% endfor %}
-						</ul>
-					</nav>
-				</header>
+	<body class="theme-transition">
+		<header class=" bg-red-500 dark:bg-stone-700 ">
+			<h1> A Not So Broken Webpage</h1>
+			<button id="theme_change" type="button">Change theme</button>
+			<nav class="p-4">
+				{% for page in pages%}
+				<a class="text-white dark:text-white" href = "{{page.link}}">{{page.name}}</a>
+				{% endfor%}
+			</nav>
+		</header>
 
-				<main>
-					<section>
-						<p>test1</p>
-					</section>
-				</main>
+		<footer>
+		</footer>
 
-
-		</div>
-		<p>test2</p>
-		<script src="/static/assets/js/index.js"></script>
+		<script src="static/js/index.js"></script>
 	</body>
 </html>
 
