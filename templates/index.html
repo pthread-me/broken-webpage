@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html class="dark theme-transition">
 	<head>
 		<meta charset="utf-8"/>
 		<title>Broken Webpage</title>
+		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="/static/css/layout.css"/>
 	</head>
 
-	<body class="theme-transition">
-		<header class=" bg-red-500 dark:bg-stone-700 ">
+	<body class=" text-black dark:text-rose-100 bg-stone-100 dark:bg-zinc-800 inconsolata">
+		<header class="">
 			<h1> A Not So Broken Webpage</h1>
-			<button id="theme_change" type="button">Change theme</button>
-			<nav class="p-4">
-				{% for page in pages%}
-				<a class="text-white dark:text-white" href = "{{page.link}}">{{page.name}}</a>
-				{% endfor%}
-			</nav>
 		</header>
-
+			{% include "nav.html" %}
+		<main class="flex justify-center h-full">
+			<div class="w-full max-w-2xl p-4">
+				<div class=" text-center text-3xl p-4">
+				<h1 > Anas Alhadi </h1> 
+				</div>
+				
+				<button hx-get="/index/article" hx-trigger="click" hx-target="#index-arena"> click me</button>
+				<div id="index-arena" class=" text-center pt-6">
+					test content	
+				</div>
+			</div>
+		</main>
 		<footer>
 		</footer>
 

@@ -3,5 +3,19 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 .theme-transition * {
-	transition: background-color 0.5s ease, color 0.5s ease;
+	transition: background-color 1s ease, color 1s ease;
 }
+
+/*
+ *	I can change weight and add a -<weight> suffix
+ *	no other change was rec in the google docs, soo..
+ */	
+.inconsolata{
+  font-family: "Inconsolata", monospace;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 108.9;
+}
+

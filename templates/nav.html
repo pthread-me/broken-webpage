@@ -1,0 +1,16 @@
+<div class="p-4"> 
+	{% for e in nav.breadcrumb %}
+		{% if loop.last %}
+			<a href="{{e.link}}">{{e.name}}</a>
+		{% else %}	
+			<a href="{{e.link}}">{{e.name}}</a>::
+		{% endif %}
+	{% endfor %}
+</div>
+<nav class="p-4">
+	{% for e in nav.bar %}	
+		<a class="" href = "{{e.link}}">{{e.name}}</a>
+	{% endfor%}
+	<button id="theme_change" type="button">Change theme</button>
+</nav>
+

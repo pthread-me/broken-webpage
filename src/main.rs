@@ -1,43 +1,32 @@
-mod index_template;
+use broken_webpage::*;
 
-
-use crate::index_template::MainNavBar;
 use tower_http::services::ServeDir;
-use askama::Template;
-use index_template::{Page};
 
 use axum::{
-  http::StatusCode, routing::get, Router
+  response::Redirect, 
+  routing::get, 
+  Router, 
+  extract::OriginalUri,
+  http
 };
-use axum::response::{
-  Html, IntoResponse
-};
 
 
 
+// OriginalUri is a wrapper over http::uri that adds more functionalities (aka get
+// entire uri) I first extract the http::uri via the closure, then cast and pass to 
+// the templating func.
 #[tokio::main]
 async fn main() {
-  let router =  routes(); 
-  let listener = tokio::net::TcpListener::bind("127.0.0.1:3000").await.unwrap();
+  let router =  Router::new()
+    .route("/", get(|| async {Redirect::permanent("/home")}))
+    .route("/home", get(|uri: http::Uri| {
+      index_controller::get_index(OriginalUri(uri)) 
+    })) 
+    .nest_service("/static", ServeDir::new("./static"));
+
+
+  let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
   axum::serve(listener, router).await.unwrap();
 }
 
-fn routes() -> Router{
-  Router::new()
-    .route("/", get(get_index))
-    .nest_service("/static", ServeDir::new("./static"))
 
-}
-
-async fn get_index() -> impl IntoResponse { 
-  let mut pages:Vec<Page> = Vec::new();
-  pages.push(Page{name: "Home",link: "https://google.com"});
-  pages.push(Page{name: "Projects",link: "#"});
-  pages.push(Page{name: "Home",link: "#"});
-  pages.push(Page{name: "Home",link: "#"});
-
-  let m_nav_bar = MainNavBar{pages};
- 
-  let reply = m_nav_bar.render().unwrap();
-  (StatusCode::OK, Html(reply).into_response())
-}
