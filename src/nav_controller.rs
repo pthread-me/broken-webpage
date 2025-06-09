@@ -1,4 +1,4 @@
-use std::{ascii::AsciiExt, str};
+use std::{ str};
 
 #[derive(Debug)]
 pub struct PageInfo{
@@ -26,7 +26,6 @@ fn to_link<'a>(elem: &'a str) -> String{
 
 
 fn to_name(elem: &str) -> String{
-  dbg!(elem);
   let mut iter = elem.chars();
   let mut name: String = iter.next().unwrap_or('?').to_ascii_uppercase().to_string();
   name.push_str(iter.as_str());

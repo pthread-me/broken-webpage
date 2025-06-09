@@ -4,12 +4,11 @@ use tower_http::services::ServeDir;
 
 use axum::{
   response::Redirect, 
-  routing::get, 
+  routing::{get, post}, 
   Router, 
-  extract::OriginalUri,
+  extract::{OriginalUri},
   http
 };
-
 
 
 // OriginalUri is a wrapper over http::uri that adds more functionalities (aka get
@@ -19,9 +18,9 @@ use axum::{
 async fn main() {
   let router =  Router::new()
     .route("/", get(|| async {Redirect::permanent("/home")}))
-    .route("/home", get(|uri: http::Uri| {
-      index_controller::get_index(OriginalUri(uri)) 
-    })) 
+    .route("/home", get(|uri: http::Uri| {index_controller::get_index(OriginalUri(uri)) }))
+    .route("/home/{test}", get(|uri: http::Uri| {index_controller::get_index(OriginalUri(uri)) }))
+    .route("/home", post(index_controller::arena_handler)) 
     .nest_service("/static", ServeDir::new("./static"));
 
 
