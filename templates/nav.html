@@ -1,16 +1,19 @@
-<div class="p-4"> 
-	{% for e in nav.breadcrumb %}
+<nav class="w-max flex inner-flex">
+{% for e in nav.breadcrumb -%}
 		{% if loop.last %}
+			<div class="w-max">
 			<a href="{{e.link}}">{{e.name}}</a>
-		{% else %}	
-			<a href="{{e.link}}">{{e.name}}</a>::
+			</div><!---->
+		{% else %}
+			<div class="w-max">
+			<a href="{{e.link}}">{{e.name}}</a>:
+			</div>
 		{% endif %}
-	{% endfor %}
-</div>
-<nav class="p-4">
+	{% endfor -%}
+</nav>
+<nav class="w-max">
 	{% for e in nav.bar %}	
 		<a class="" href = "{{e.link}}">{{e.name}}</a>
 	{% endfor%}
-	<button id="theme_change" type="button">Change theme</button>
 </nav>
 

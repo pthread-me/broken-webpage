@@ -1,5 +1,7 @@
 // Theme and transition controllers
 
+
+
 function getTheme() {
   if (typeof localStorage !== 'undefined' && localStorage.getItem('theme') !==null ) {
     return localStorage.getItem('theme');
@@ -9,6 +11,7 @@ function getTheme() {
   }
   return 0;
 }
+
 
 const toggleButton = document.getElementById('theme_change'); 
 if (toggleButton) {

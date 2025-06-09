@@ -1,33 +1,72 @@
 <!DOCTYPE html>
-<html class="dark theme-transition">
+<html class="dark">
 	<head>
 		<meta charset="utf-8"/>
 		<title>Broken Webpage</title>
-		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+		<script src="/static/js/htmx.js"></script>
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				theme = '0';
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme') !== null ) {
+					theme = localStorage.getItem('theme');
+				} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					theme = '1';
+				}
+
+				if (theme == '0')	{
+					document.getElementsByTagName('html')[0].classList.toggle('dark');
+					localStorage.setItem('theme', '0')
+				}else{
+					localStorage.setItem('theme', '1')
+				}
+			});
+		</script>
+
 		<link rel="stylesheet" href="/static/css/layout.css"/>
 	</head>
 
+
 	<body class=" text-black dark:text-rose-100 bg-stone-100 dark:bg-zinc-800 inconsolata">
-		<header class="">
-			<h1> A Not So Broken Webpage</h1>
+		
+
+		<header class="w-full">
+			
+			<div>
+				<h1> A Not So Broken Webpage</h1>
+			</div>
+			
+			<div class="flex p-4">
+				<div class="w-max">
+					{% include "nav.html" %}
+				</div>
+				<div class="w-max ml-auto">
+					<button id="theme_change" type="button" class="">Change theme</button>
+				</div>
+			</div>
 		</header>
-			{% include "nav.html" %}
+
+
+
+
 		<main class="flex justify-center h-full">
-			<div class="w-full max-w-2xl p-4">
+			<section class="w-full max-w-2xl p-4">
 				<div class=" text-center text-3xl p-4">
 				<h1 > Anas Alhadi </h1> 
 				</div>
 				
-				<button hx-get="/index/article" hx-trigger="click" hx-target="#index-arena"> click me</button>
-				<div id="index-arena" class=" text-center pt-6">
-					test content	
+				<div class=" text-center pt-6">
+					<form hx-post="/home" hx-target="#arena" hx-swap="innerHTML">
+						<button name="content" value="about me">click me</button>
+					</form>
+					<div id="arena" class="flex flex-wrap"></div>
 				</div>
-			</div>
+
+			</section>
 		</main>
 		<footer>
 		</footer>
 
-		<script src="static/js/index.js"></script>
+		<script src="/static/js/index.js"></script>
 	</body>
 </html>
 
