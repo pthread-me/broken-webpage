@@ -1,0 +1,10 @@
+[package]
+name = "db-server"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+pulldown-cmark = {version = "0.13"} 
+sqlx-sqlite = { version = "0.8.6", features = ["any"] }
+sqlx = {version= "0.8.6", features = ["sqlite", "runtime-tokio"]} 
+

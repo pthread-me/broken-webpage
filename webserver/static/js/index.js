@@ -13,7 +13,7 @@ function getTheme() {
 }
 
 
-const toggleButton = document.getElementById('theme_change'); 
+const toggleButton = document.getElementById('change-theme'); 
 if (toggleButton) {
   toggleButton.addEventListener('click', () => {
 		document.getElementsByTagName('html')[0].classList.add('theme-transition');

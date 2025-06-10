@@ -1,19 +1,19 @@
-<nav class="w-max flex inner-flex">
+<div class="w-max flex inner-flex">
 {% for e in nav.breadcrumb -%}
 		{% if loop.last %}
 			<div class="w-max">
-			<a href="{{e.link}}">{{e.name}}</a>
+			<a class = "" href="{{e.link}}">{{e.name}}</a>
 			</div><!---->
 		{% else %}
 			<div class="w-max">
-			<a href="{{e.link}}">{{e.name}}</a>::
+			<a class="" href="{{e.link}}">{{e.name}}</a>::
 			</div>
 		{% endif %}
 	{% endfor -%}
-</nav>
-<nav class="w-max">
+</div>
+<div class="w-max">
 	{% for e in nav.bar %}	
 		<a class="" href = "{{e.link}}">{{e.name}}</a>
 	{% endfor%}
-</nav>
+</div>
 

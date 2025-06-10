@@ -1,16 +1,4 @@
-[package]
-name = "broken-webpage"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+resolver = "3"
 
-[dependencies]
-askama = "0.14.0"
-axum = {version = "0.8.4", features = ["original-uri", "query"]}
-once_cell = "1.21.3"
-serde = {version = "1.0.219", features = ["derive", "std"]}
-sqlx-sqlite = { version = "0.8.6", features = ["any"] }
-sqlx = {version= "0.8.6", features = ["sqlite", "runtime-tokio"]} 
-tokio = { version = "1.45.1", features = ["full"] }
-toml = "0.8.22"
-tower-http = {version = "0.6.6", features = ["full"]}
-any = "0.0.1"
+members = ["webserver", "db"]

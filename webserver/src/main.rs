@@ -1,7 +1,7 @@
-use broken_webpage::*;
+use webserver::*;
+use std::path::PathBuf;
 
 use tower_http::services::ServeDir;
-
 use axum::{
   response::Redirect, 
   routing::{get, post}, 
@@ -11,17 +11,17 @@ use axum::{
 };
 
 
-// OriginalUri is a wrapper over http::uri that adds more functionalities (aka get
-// entire uri) I first extract the http::uri via the closure, then cast and pass to 
-// the templating func.
 #[tokio::main]
 async fn main() {
+  
+  let static_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "static"].iter().collect(); 
+
   let router =  Router::new()
     .route("/", get(|| async {Redirect::permanent("/home")}))
     .route("/home", get(|uri: http::Uri| {index_controller::get_index(OriginalUri(uri)) }))
     .route("/home/{test}", get(|uri: http::Uri| {index_controller::get_index(OriginalUri(uri)) }))
     .route("/home", post(index_controller::arena_handler)) 
-    .nest_service("/static", ServeDir::new("./static"));
+    .nest_service("/static", ServeDir::new(static_path));
 
 
   let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
