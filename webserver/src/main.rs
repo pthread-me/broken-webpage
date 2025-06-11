@@ -1,5 +1,6 @@
 use webserver::*;
 use std::path::PathBuf;
+use database::db::DbPool;
 
 use tower_http::services::ServeDir;
 use axum::{
@@ -15,6 +16,9 @@ use axum::{
 async fn main() {
   
   let static_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "static"].iter().collect(); 
+  
+  let pool = DbPool::new().await;
+  pool.unwrap().w_pool;
 
   let router =  Router::new()
     .route("/", get(|| async {Redirect::permanent("/home")}))

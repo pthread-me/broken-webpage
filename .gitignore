@@ -1,4 +1,6 @@
 /target
 node_modules
 package-lock.json
-/**/*.sqlite
+/**/*.db
+/**/*.db-shm
+/**/*.db-wal
