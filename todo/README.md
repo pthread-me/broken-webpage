@@ -1,4 +1,24 @@
-# Lazy SQL rendering + access []
+# Finish article page templates [X]
+
+1. Should be nearly identical to /home
+2. I need a article select page, the css will take forever so not now, but it will be 
+    "block" with a title and desc, I might need a summary column in the db but 
+    pure text should be fine, i just dont know what the rendering process will look
+    like yet, probably wont use a trigger, just iterate over all entries selecting title + summary then
+    plug into, what for now will be this struct:
+    ```rust
+        #[derive(Template)]
+        #[template=(path=".....")]
+        struct Summary{
+            title: &str,
+            description: &str
+        }
+    ```
+    slices should be fine cause we need to .to_owned right before dispatching to askama (at least
+    until i figure out lifetimes) 
+
+
+# Lazy SQL rendering + access [X]
 
 1. set up sqlite db
     - Use Write ahead Logging
@@ -40,21 +60,3 @@
         
 
 
-# Finish article page templates
-
-1. Should be nearly identical to /home
-2. I need a article select page, the css will take forever so not now, but it will be 
-    "block" with a title and desc, I might need a summary column in the db but 
-    pure text should be fine, i just dont know what the rendering process will look
-    like yet, probably wont use a trigger, just iterate over all entries selecting title + summary then
-    plug into, what for now will be this struct:
-    ```rust
-        #[derive(Template)]
-        #[template=(path=".....")]
-        struct Summary{
-            title: &str,
-            description: &str
-        }
-    ```
-    slices should be fine cause we need to .to_owned right before dispatching to askama (at least
-    until i figure out lifetimes) 
