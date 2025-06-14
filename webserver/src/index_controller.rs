@@ -40,7 +40,7 @@ pub async fn get_index(uri: OriginalUri)-> impl IntoResponse {
 pub async fn arena_handler(State(db_pool): State<Arc<DbPool>>, Form(form_data): Form<PostData>) -> impl IntoResponse{
   let reply:String = db_pool.as_ref()
     .get_entry(&form_data.content).await
-    .unwrap_or_else(|_| "Empty Arena".to_string());
+    .unwrap_or_else(|_| "Empty Arena :(".to_string());
 
   (StatusCode::OK, Html(reply).into_response())
 }

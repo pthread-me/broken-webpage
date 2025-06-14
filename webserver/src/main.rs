@@ -22,11 +22,14 @@ async fn main() {
     panic!("Cant connect to Database")
   };
 
-  
+ 
+  // Notes to self
+  // 1) with state shares state with all reqs unlike extension (not sure about 
+  //    specifics but dont use the latter)
+  // 2) I still am not great with Arcs and some lang features, .clone() is to +1 the
+  //    ref count (im pretty sure)
   let router =  Router::new()
-    .route("/", get(|| async {
-      Redirect::permanent("/home")
-      }))
+    .route("/", get(|| async {Redirect::permanent("/home")}))
     .route("/home", get(get_index))
     .route("/home", post(index_controller::arena_handler)) 
     .nest_service("/static", ServeDir::new(static_path))

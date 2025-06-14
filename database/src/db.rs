@@ -7,7 +7,6 @@ use sqlx::sqlite::{
   SqliteJournalMode::Wal, 
   SqlitePoolOptions
 };
-use std::error::Error;
 use std::{
   str::FromStr,
   path::PathBuf
@@ -20,8 +19,7 @@ use sqlx::prelude::FromRow;
 
 
 /*
- *  Note to self, SqlitePool is type alias to Pool, which
- *  impl Send and Sync so DbPool is safe 
+ *  Note to self, SqlitePool is type alias to Pool
 */
 #[derive(Debug, Clone)]
 pub struct DbPool{
@@ -31,9 +29,9 @@ pub struct DbPool{
 
 #[derive(FromRow)]
 struct DbRow{
-  id: i64,
-  title: String,
-  summary: Option<String>,
+  _id: i64,
+  _title: String,
+  _summary: Option<String>,
   html: Option<String>,
   markdown: String,
 }
@@ -41,13 +39,14 @@ struct DbRow{
 impl DbPool{
     pub async fn new() -> Result<DbPool>{
       let db_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "webserver.db"].iter().collect(); 
-       
-
+      
+      // Joural mode = Wal is not necessary for 1 writer but i might scale in the future
       let pool_opt = SqliteConnectOptions::from_str(
           &db_path.to_str().map(|path| format!("{path}?mode=rw")).unwrap()
         )?
         .journal_mode(Wal);
 
+      // Initializing for read and write pools
       let r_pool = SqlitePoolOptions::new()
         .min_connections(4)
         .max_connections(8)
@@ -56,8 +55,6 @@ impl DbPool{
           eprintln!("Could not open read only connections, in DbPool");
           err
         }).unwrap();
-
-
       let w_pool = SqlitePoolOptions::new()
         .min_connections(1)
         .max_connections(1)
@@ -67,12 +64,14 @@ impl DbPool{
           err
         }).unwrap();
 
-      Ok(DbPool{
-        w_pool,
-        r_pool,
-      })
+      Ok(DbPool{w_pool, r_pool,})
     }
 
+
+    // First attempt to read entry, if not rendered, switch to writing mode
+    // render then update db and return the expected html
+    // all errs are propagated to the caller except when update
+    // changes undesired rows in db, in that case idk what to do so panic
     pub async fn get_entry(&self, title: &str) -> Result<String>{
       let reader = &self.r_pool;
       let entry: DbRow = sqlx::query_as("SELECT * from Blogs where title = $1")
@@ -80,7 +79,6 @@ impl DbPool{
         .fetch_one(reader).await?;
 
       if let Some(html) = entry.html{
-        reader.close().await;
         return Ok(html)
       }
 
@@ -98,8 +96,8 @@ impl DbPool{
         .bind(title)
         .fetch_one(writer).await?;
 
-      writer.close().await;
-      entry.html.context("Deeper error while rendering md->html")
+
+      entry.html.context("Rendering issue probably")
   }
 }
 
